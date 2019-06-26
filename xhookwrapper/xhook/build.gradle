@@ -24,11 +24,11 @@ android {
             useProguard false
         }
     }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
-        }
-    }
+//    sourceSets {
+//        main {
+//            jniLibs.srcDirs = ['libs']
+//        }
+//    }
     uploadArchives {
         repositories {
             mavenDeployer {
@@ -39,6 +39,12 @@ android {
                 pom.artifactId = "xhook"
                 pom.groupId = "com.qiyi.xhook"
             }
+        }
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
         }
     }
 }

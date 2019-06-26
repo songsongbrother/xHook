@@ -40,6 +40,7 @@ public class XHook {
             System.loadLibrary("xhook");
             inited = true;
         } catch (Throwable e) {
+            e.printStackTrace();
             try {
                 System.load(ctx.getFilesDir().getParent() + "/lib/libxhook.so");
                 inited = true;
