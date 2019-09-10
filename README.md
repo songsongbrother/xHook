@@ -178,6 +178,16 @@ xhook_refresh(1);
 ```
 
 
+## Support
+
+1. Check the [xhook-sample](libbiz/jni).
+2. Communicate on [GitHub issues](https://github.com/iqiyi/xHook/issues).
+3. Mail: <a href="mailto:caikelun@gmail.com">caikelun@gmail.com</a>
+4. QQ group: 603635869. QR code:
+
+<p align="left"><img src="docs/qq_group.jpg" alt="qq group" width="300px"></p>
+
+
 ## Contributing
 
 See [xHook Contributing Guide](CONTRIBUTING.md).
