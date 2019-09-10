@@ -12,7 +12,7 @@
 
 //#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__)
 
-void getfilestr(FILE *fp);
+//void getfilestr(FILE *fp);
 
 //static int my_system_log_print(int prio, const char* tag, const char* fmt, ...)
 //{
@@ -96,7 +96,7 @@ void getfilestr(FILE *fp);
 //    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strcpy==ret===%s", ret);
 //    return ret;
 //}
-//
+
 //static int my_strcmp(const char* s1, const char* s2)
 //{
 //    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strcmp==%s  %s", s1,s2);
@@ -124,7 +124,7 @@ void getfilestr(FILE *fp);
 //    va_end(ap);
 //    return r;
 //}
-//
+
 //static int my_sprintf(char* s, const char* fmt, ...)
 //{
 //
@@ -145,6 +145,16 @@ void getfilestr(FILE *fp);
 ////    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "fread==%zu  %zu", size,n);
 //    getfilestr(stream);
 //    return fread(ptr,size,n,stream);
+//}
+
+//void *my_memcpy(void *a,const void *b,size_t c){
+//    // 打印出元素字节
+////    char buf[1024];
+////    if (c<1024) {
+////        memcpy
+////    }
+//    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "memcpy==%s", b);
+//    return memcpy(a,b,c);
 //}
 
  size_t my_strlen(const char* s){
