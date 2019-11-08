@@ -10,6 +10,10 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#define PRINT_SIZE 900
+#define TAG "smid_hook"
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__)
+
 //#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__)
 
 //void getfilestr(FILE *fp);
@@ -42,26 +46,32 @@
 //    return r;
 //}
 
-//static FILE *my_fopen(const char* filename, const char* modes)
-//{
-//    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "fopen==%s", filename);
-//    return fopen(filename,modes);
-//}
-//
-//static FILE *my_popen(const char* filename, const char* modes)
-//{
-//    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "popen==%s", filename);
-//    return fopen(filename,modes);
-//}
+static FILE *my_fopen(const char* filename, const char* modes)
+{
+   __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "fopen==%s", filename);
 
-//static int my_open(const char* file, int oflag,...)
-//{
+   if (strstr(filename,"proc")&&strstr(filename,"map"))
+   {
+      return fopen("/proc/cpuinfo",modes);
+   }
+
+   return fopen(filename,modes);
+}
+
+static FILE *my_popen(const char* filename, const char* modes)
+{
+   __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "popen==%s", filename);
+   return fopen(filename,modes);
+}
+
+// static int my_open(const char* file, int oflag,...)
+// {
 //    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "open==%s %d", file,oflag);
 //        int r;
 //    r = open(file,O_RDWR);
 //    return r;
-//}
-//
+// }
+
 //static ssize_t my_read(int fd,void *buf,size_t nbytes){
 //    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "read==%d",fd);
 //    return read(fd,buf,nbytes);
@@ -73,35 +83,35 @@
 //}
 
 
-//static char *my_strstr(const char* haystack, const char* needle)
-//{
-//    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strstr==%s  %s", haystack,needle);
-//    char *ret;
-//    ret = strstr(haystack,needle);
-//    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strstr==ret===%s", ret);
-//    return ret;
-//}
+static char *my_strstr(const char* haystack, const char* needle)
+{
+   __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strstr==%s  %s", haystack,needle);
+   char *ret;
+   ret = strstr(haystack,needle);
+   __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strstr==ret===%s", ret);
+   return ret;
+}
 
-//static char *my_strcpy(char* dest, const char* src)
-//{
-//    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strcpy==%s  %s", dest,src);
-////    if (strcmp(src,"267000:3F45E0:EDC3C4")==0) {
-//        // 修改值
-////        src = "feq#%dc87#988(^)78909-=89+1vfiqocxq58*@#~09$";
-////        strcpy(src,"feq#%dc87#988(^)78909-=89+1vfiqocxq58*@#~09$");
-////        return strcpy(dest,"267000:3F45E0:EDC3C4");
-////    }
-//    char *ret;
-//    ret = strcpy(dest,src);
-//    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strcpy==ret===%s", ret);
-//    return ret;
-//}
+static char *my_strcpy(char* dest, const char* src)
+{
+   __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strcpy==%s  %s", dest,src);
+//    if (strcmp(src,"267000:3F45E0:EDC3C4")==0) {
+       // 修改值
+//        src = "feq#%dc87#988(^)78909-=89+1vfiqocxq58*@#~09$";
+//        strcpy(src,"feq#%dc87#988(^)78909-=89+1vfiqocxq58*@#~09$");
+//        return strcpy(dest,"267000:3F45E0:EDC3C4");
+//    }
+   char *ret;
+   ret = strcpy(dest,src);
+   __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strcpy==ret===%s", ret);
+   return ret;
+}
 
-//static int my_strcmp(const char* s1, const char* s2)
-//{
-//    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strcmp==%s  %s", s1,s2);
-//    return strcmp(s1,s2);
-//}
+static int my_strcmp(const char* s1, const char* s2)
+{
+   __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strcmp==%s  %s", s1,s2);
+   return strcmp(s1,s2);
+}
 
 //static int my_get_sys(const char* name, char* value)
 //{
@@ -110,36 +120,36 @@
 //}
 
 
-//static int my_sscanf(const char* s, const char* fmt, ...)
-//{
-//    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "sscanf==%s  %s", s,fmt);
-//    va_list ap;
-////    char buf[1024];
-//    int r;
-//
-////    snprintf(buf, sizeof(buf), "[%s] %s", (NULL == s ? "" : s), (NULL == fmt ? "" : fmt));
-//
-//    va_start(ap, fmt);
-//    r = vsscanf(s, fmt, ap);
-//    va_end(ap);
-//    return r;
-//}
+static int my_sscanf(const char* s, const char* fmt, ...)
+{
+   __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "sscanf==%s  %s", s,fmt);
+   va_list ap;
+//    char buf[1024];
+   int r;
 
-//static int my_sprintf(char* s, const char* fmt, ...)
-//{
-//
-//    va_list ap;
-////    char buf[1024];
-//    int r;
-//
-////    snprintf(buf, sizeof(buf), "[%s] %s", (NULL == s ? "" : s), (NULL == fmt ? "" : fmt));
-//
-//    va_start(ap, fmt);
-//    r = vsprintf(s, fmt, ap);
-//    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "sprintf==%s  %s", s,fmt);
-//    va_end(ap);
-//    return r;
-//}
+//    snprintf(buf, sizeof(buf), "[%s] %s", (NULL == s ? "" : s), (NULL == fmt ? "" : fmt));
+
+   va_start(ap, fmt);
+   r = vsscanf(s, fmt, ap);
+   va_end(ap);
+   return r;
+}
+
+static int my_sprintf(char* s, const char* fmt, ...)
+{
+
+   va_list ap;
+//    char buf[1024];
+   int r;
+
+//    snprintf(buf, sizeof(buf), "[%s] %s", (NULL == s ? "" : s), (NULL == fmt ? "" : fmt));
+
+   va_start(ap, fmt);
+   r = vsprintf(s, fmt, ap);
+   __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "sprintf==%s  %s", s,fmt);
+   va_end(ap);
+   return r;
+}
 
 //static size_t my_fread(void *ptr,size_t size,size_t n,FILE *stream){
 ////    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "fread==%zu  %zu", size,n);
@@ -157,39 +167,69 @@
 //    return memcpy(a,b,c);
 //}
 
+void print_long_data(const char *s) {
+
+    // 分割打印数据
+    int len = strlen(s);
+    if (len > PRINT_SIZE) {
+        // d长度大于200
+        char buf[PRINT_SIZE + 1];
+        int n = 0;
+
+        while ((len - n) > PRINT_SIZE) {
+            memcpy(buf, s + n, PRINT_SIZE);
+            buf[PRINT_SIZE] = '\0';
+            LOGE("%s", buf);
+            n += PRINT_SIZE;
+        }
+
+        memcpy(buf, s + n, len - n);
+        buf[len - n + 1] = '\0';
+        LOGE("%s", buf);
+
+    } else {
+        LOGE("%s", s);
+    }
+
+}
+
+
  size_t my_strlen(const char* s){
 
-     // 当以{开头时，单独打印出数据
-     if(s[0]=='{'){
-         // 分割打印数据
+     // // 当以{开头时，单独打印出数据
+     // if(s[0]=='{'){
+     //     // 分割打印数据
 
-         int len = strlen(s);
-         if (len>200) {
-             // d长度大于200
-             char buf[201]={0};
-             int n = 0;
+     //     int len = strlen(s);
+     //     if (len>200) {
+     //         // d长度大于200
+     //         char buf[201]={0};
+     //         int n = 0;
 
-             while ((len-n)>200) {
-                 memcpy(buf,s+n,200);
-                 buf[200] = '\0';
-                 __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strlen==%s", buf);
-                 n+=200;
-             }
+     //         while ((len-n)>200) {
+     //             memcpy(buf,s+n,200);
+     //             buf[200] = '\0';
+     //             __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strlen==%s", buf);
+     //             n+=200;
+     //         }
 
-             memcpy(buf,s+n,len-n);
-             buf[len-n+1] = '\0';
-             __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strlen==%s", buf);
+     //         memcpy(buf,s+n,len-n);
+     //         buf[len-n+1] = '\0';
+     //         __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strlen==%s", buf);
 
-         }else{
-             __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strlen==%s", s);
-         }
+     //     }else{
+     //         __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strlen==%s", s);
+     //     }
 
-     }else{
-          __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strlen==%s", s);
-     }
+     // }else{
+     //      __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "strlen==%s", s);
+     // }
+
+    print_long_data(s);
 
     return strlen(s);
 }
+
 
 //FILE *my_freopen(const char *filename,const char *mode,FILE *stream){
 //    __android_log_print(ANDROID_LOG_ERROR, "smid_hook", "freopen==%s", filename);
@@ -240,21 +280,21 @@ void Java_com_qiyi_biz_NativeHandler_start(JNIEnv* env, jobject obj)
     // xhook_register("^/vendor/.*\\.so$",  "__android_log_print", my_system_log_print,  NULL);
     // xhook_register(".*/libtest\\.so$", "__android_log_print", my_libtest_log_print, NULL);
     
-//    xhook_register(".*/libdu\\.so$","fopen",my_fopen,NULL);
-//    xhook_register(".*/libdu\\.so$","popen",my_popen,NULL);
+   xhook_register(".*/libdu\\.so$","fopen",my_fopen,NULL);
+   xhook_register(".*/libdu\\.so$","popen",my_popen,NULL);
 //    xhook_register(".*/libdu\\.so$","open",my_open,NULL);
     xhook_register(".*/libdu\\.so$","strlen",my_strlen,NULL);
-//    xhook_register(".*/libdu\\.so$","strstr",my_strstr,NULL);
-//    xhook_register(".*/libdu\\.so$","strcpy",my_strcpy,NULL);
-//    xhook_register(".*/libdu\\.so$","strcmp",my_strcmp,NULL);
+   xhook_register(".*/libdu\\.so$","strstr",my_strstr,NULL);
+   xhook_register(".*/libdu\\.so$","strcpy",my_strcpy,NULL);
+   xhook_register(".*/libdu\\.so$","strcmp",my_strcmp,NULL);
 //     xhook_register(".*/libdu\\.so$","memcpy",my_memcpy,NULL);
 //     xhook_register(".*/libdu\\.so$","__system_property_get",my_get_sys,NULL);
 //     xhook_register(".*/libdu\\.so$","strcasecmp",my_strcasecmp,NULL);
-//    xhook_register(".*/libdu\\.so$","sscanf",my_sscanf,NULL);
+   xhook_register(".*/libdu\\.so$","sscanf",my_sscanf,NULL);
 //    xhook_register(".*/libdu\\.so$","creat",my_creat,NULL);
 //    xhook_register(".*/libdu\\.so$","read",my_read,NULL);
 //    xhook_register(".*/libdu\\.so$","fread",my_fread,NULL);
-//    xhook_register(".*/libdu\\.so$","sprintf",my_sprintf,NULL);
+   xhook_register(".*/libdu\\.so$","sprintf",my_sprintf,NULL);
 //    xhook_register(".*/libdu\\.so$","freopen",my_freopen,NULL);
     
 
